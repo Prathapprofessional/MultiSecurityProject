@@ -1,20 +1,25 @@
 package com.example.multisecurityproject.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+@Controller
 public class homeController {
 
     @GetMapping("/")
-    public String home()
+    public ModelAndView home()
     {
-        return "hello Home";
+        // Add any model attributes if needed
+        return new ModelAndView("hello Home");
     }
 
 
     @GetMapping("/private")
-    public String secure()
+    public ModelAndView secure()
     {
-        return "hello Secured";
+        // Add any model attributes if needed
+        return new ModelAndView("hello Home");
     }
 
 }

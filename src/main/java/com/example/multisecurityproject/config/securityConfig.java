@@ -15,10 +15,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class securityConfig {
 
     @Bean
+    @Order(1)
     SecurityFilterChain apisecuirty(HttpSecurity http) throws Exception {
         return http
+                .securityMatcher("/api/**")
         .authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/api/**").authenticated();
+            auth.anyRequest().authenticated();
                     })
                 .sessionManagement(session->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -31,9 +33,10 @@ public class securityConfig {
 
 
     @Bean
-    @Order(1)
+   @Order(2)
     SecurityFilterChain h2ConsoleSecurity(HttpSecurity http) throws Exception {
         return http
+                .securityMatcher(AntPathRequestMatcher.antMatcher("/h2-console/**"))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
                 })
@@ -41,4 +44,19 @@ public class securityConfig {
 //                .headers(headers->headers.frameOptions().disable())
                 .build();
     }
+
+    @Bean
+    @Order(3)
+    SecurityFilterChain Security(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(auth->{
+                    auth.requestMatchers("/").permitAll();
+                    auth.requestMatchers("/error").permitAll();
+                    auth.anyRequest().authenticated();
+                })
+                .formLogin(Customizer.withDefaults())
+                .build();
+    }
+
+
 }
