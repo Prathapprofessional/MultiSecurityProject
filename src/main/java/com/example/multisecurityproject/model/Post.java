@@ -1,2 +1,6 @@
-package com.example.multisecurityproject.model;public class Post {
+package com.example.multisecurityproject.model;
+
+import org.springframework.data.annotation.Id;
+
+public record Post (@Id Integer id, String title, String content){
 }
